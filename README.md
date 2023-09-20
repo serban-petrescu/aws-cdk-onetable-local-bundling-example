@@ -1,14 +1,46 @@
-# Welcome to your CDK TypeScript project
+# CDK Local Bundling Demo
 
-This is a blank project for CDK development with TypeScript.
+Steps to create this project:
+ - `nvm install 18` - get node 18
+ - `npm i -g aws-cdk@latest` - install CDK CLI
+ - `cdk init app --language=typescript` - init empty app
+ - `npm i -S dynamodb-onetable @aws-sdk/client-dynamodb` - install runtime dependencies
+ - `npm i -D esbuild@0` - install local bundler
+ - Wrote some code; took maybe 10 minutes.
+ - `npm run cdk -- deploy` - deploy to AWS; synthesis took 7 seconds
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+Output:
+```
+> cdk deploy
 
-## Useful commands
+Bundling asset SerbanCdkExampleStack/Lambda/Code/Stage...
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+  cdk.out/bundling-temp-1e2e3f155f2419da5c761ceda245613a42c34d9e49860ee43aafa1fe7b89fbb5/index.js  1.3mb ⚠️
+
+⚡ Done in 63ms
+
+✨  Synthesis time: 7.13s
+
+SerbanCdkExampleStack: deploying... [1/1]
+SerbanCdkExampleStack: creating CloudFormation changeset...
+
+ ✅  SerbanCdkExampleStack
+
+✨  Deployment time: 52.13s
+
+Outputs:
+...
+```
+
+ - `aws lambda invoke --function-name SerbanCdkExampleStack-Lambda... out.json` - run Lambda
+
+
+Output:
+```json
+{
+    "StatusCode": 200,
+    "ExecutedVersion": "$LATEST"
+}
+```
+
+See out.json for results.
